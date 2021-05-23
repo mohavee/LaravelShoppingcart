@@ -55,14 +55,14 @@ class CartItem implements Arrayable, Jsonable
      *
      * @var string|null
      */
-    private $associatedModel = null;
+    protected $associatedModel = null;
 
     /**
      * The tax rate for the cart item.
      *
      * @var int|float
      */
-    private $taxRate = 0;
+    protected $taxRate = 0;
 
     /**
      * CartItem constructor.
@@ -290,7 +290,7 @@ class CartItem implements Arrayable, Jsonable
      */
     public static function fromBuyable(Buyable $item, array $options = [])
     {
-        return new self($item->getBuyableIdentifier($options), $item->getBuyableDescription($options), $item->getBuyablePrice($options), $options);
+        return new static($item->getBuyableIdentifier($options), $item->getBuyableDescription($options), $item->getBuyablePrice($options), $options);
     }
 
     /**
@@ -303,7 +303,7 @@ class CartItem implements Arrayable, Jsonable
     {
         $options = array_get($attributes, 'options', []);
 
-        return new self($attributes['id'], $attributes['name'], $attributes['price'], $options);
+        return new static($attributes['id'], $attributes['name'], $attributes['price'], $options);
     }
 
     /**
@@ -317,7 +317,7 @@ class CartItem implements Arrayable, Jsonable
      */
     public static function fromAttributes($id, $name, $price, array $options = [])
     {
-        return new self($id, $name, $price, $options);
+        return new static($id, $name, $price, $options);
     }
 
     /**
@@ -373,7 +373,7 @@ class CartItem implements Arrayable, Jsonable
      * @param string $thousandSeperator
      * @return string
      */
-    private function numberFormat($value, $decimals, $decimalPoint, $thousandSeperator)
+    protected function numberFormat($value, $decimals, $decimalPoint, $thousandSeperator)
     {
         if (is_null($decimals)){
             $decimals = is_null(config('cart.format.decimals')) ? 2 : config('cart.format.decimals');
